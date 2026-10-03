@@ -16,19 +16,18 @@ dialog{width:min(920px,94vw);max-height:92vh;background:#0b1e22;color:white;bord
 .adminbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:20px} table{width:100%;border-collapse:collapse;background:#0d2024} th,td{padding:10px;border-bottom:1px solid #234047;text-align:left;font-size:13px} th{color:var(--muted);position:sticky;top:0;background:#0d2024} .tablewrap{overflow:auto;max-height:60vh;border:1px solid var(--line);border-radius:16px}
 iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:14px;background:#000} .hidden{display:none!important}
 @media(max-width:700px){.filters,.formgrid{grid-template-columns:1fr}.wide{grid-column:auto}h1{font-size:48px}}
-
-/* HOME CIRCULATION */
-#circulationHome{position:fixed;inset:0;z-index:9999;background:#000;overflow:hidden}
-#circulationHome video{width:100%;height:100%;object-fit:cover;display:block}
-#circulationHint{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);padding:10px 16px;border-radius:999px;background:#0008;color:#fff;font-size:13px;backdrop-filter:blur(8px);pointer-events:none}
+</style>
+<style id="home-video-style">
+#homeVideoPage{position:fixed;inset:0;z-index:9999;background:#000;overflow:hidden}
+#homeVideoPage video{width:100%;height:100%;object-fit:cover;display:block}
+#homeEnter{position:absolute;inset:0;border:0;background:transparent;cursor:pointer}
 body.home-active>header,body.home-active>main{visibility:hidden}
-</style></head>
-<body class="home-active">
-<section id="circulationHome" aria-label="Accueil Ostéo Pratik">
-  <video id="homeVideo" preload="auto" playsinline muted>
-    <source src="osteo-pratik-home-circulation.mp4" type="video/mp4">
-  </video>
-  <div id="circulationHint">Fais défiler pour avancer ou reculer</div>
+</style>
+</head>
+<body>
+<section id="homeVideoPage" aria-label="Accueil Ostéo Pratik">
+  <video id="homeVideo" muted playsinline preload="auto" src="Osteo_Pratik_titres_sur_grandes_portes(1).mp4"></video>
+  <button id="homeEnter" aria-label="Entrer dans Ostéo Pratik"></button>
 </section>
 
 <header><div class="logo">OSTÉO<b>·</b>PRATIK</div><nav><button onclick="showStudent()">Étudiant</button><button onclick="showAdmin()">Back-office</button></nav></header>
@@ -95,28 +94,18 @@ function exportData(){const blob=new Blob([JSON.stringify(techniques,null,2)],{t
 function showStudent(){$('student').classList.remove('hidden');$('admin').classList.add('hidden');fillFilters();renderStudent();}
 function showAdmin(){$('student').classList.add('hidden');$('admin').classList.remove('hidden');renderAdmin();}
 fillFilters();renderStudent();
-
-// Navigation vidéo d'accueil : le scroll pilote directement la lecture.
-const circulationHome=document.getElementById('circulationHome');
-const homeVideo=document.getElementById('homeVideo');
-let targetTime=0, rafHome=0, touchY=null;
-function clampHome(v){return Math.max(0,Math.min(homeVideo.duration||10,v));}
-function paintHome(){
-  if(!Number.isFinite(homeVideo.duration)) return;
-  const d=targetTime-homeVideo.currentTime;
-  if(Math.abs(d)>.012){homeVideo.currentTime=clampHome(homeVideo.currentTime+d*.28);rafHome=requestAnimationFrame(paintHome)}else{homeVideo.currentTime=clampHome(targetTime);rafHome=0}
-}
-function scrubHome(delta){
-  if(!Number.isFinite(homeVideo.duration)) return;
-  targetTime=clampHome(targetTime+delta);
-  if(!rafHome) rafHome=requestAnimationFrame(paintHome);
-}
-window.addEventListener('wheel',e=>{if(!document.body.classList.contains('home-active'))return;e.preventDefault();scrubHome(e.deltaY*.0045)},{passive:false});
-window.addEventListener('touchstart',e=>{if(document.body.classList.contains('home-active'))touchY=e.touches[0].clientY},{passive:true});
-window.addEventListener('touchmove',e=>{if(!document.body.classList.contains('home-active')||touchY===null)return;const y=e.touches[0].clientY;scrubHome((touchY-y)*.012);touchY=y},{passive:true});
-homeVideo.addEventListener('loadedmetadata',()=>{homeVideo.pause();homeVideo.currentTime=0;targetTime=0});
-homeVideo.addEventListener('error',()=>{document.getElementById('circulationHint').textContent='Vidéo introuvable : vérifie que les deux fichiers sont côte à côte.'});
-// Pour ce prototype, un clic à la fin de la circulation entre dans l'application complète.
-circulationHome.addEventListener('click',()=>{if(Number.isFinite(homeVideo.duration)&&homeVideo.currentTime>=homeVideo.duration*.88){circulationHome.style.display='none';document.body.classList.remove('home-active');showStudent();}});
-
-</script></body></html>
+</script>
+<script id="home-video-script">
+(()=>{
+ const page=document.getElementById('homeVideoPage'), v=document.getElementById('homeVideo');
+ document.body.classList.add('home-active');
+ let target=0;
+ const clamp=t=>Math.max(0,Math.min((v.duration||10)-0.03,t));
+ addEventListener('wheel',e=>{if(!page||page.style.display==='none')return;e.preventDefault();target=clamp(target+e.deltaY*0.0028);v.currentTime=target;},{passive:false});
+ let y=null;
+ addEventListener('touchstart',e=>{if(page&&page.style.display!=='none')y=e.touches[0].clientY},{passive:true});
+ addEventListener('touchmove',e=>{if(y===null||!page||page.style.display==='none')return;const ny=e.touches[0].clientY;target=clamp(target+(y-ny)*0.012);v.currentTime=target;y=ny;},{passive:true});
+ document.getElementById('homeEnter').addEventListener('click',()=>{page.style.display='none';document.body.classList.remove('home-active');});
+})();
+</script>
+</body></html>
