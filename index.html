@@ -17,18 +17,27 @@ dialog{width:min(920px,94vw);max-height:92vh;background:#0b1e22;color:white;bord
 iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:14px;background:#000} .hidden{display:none!important}
 @media(max-width:700px){.filters,.formgrid{grid-template-columns:1fr}.wide{grid-column:auto}h1{font-size:48px}}
 
-#circulationHome{position:fixed;inset:0;z-index:100;background:#000;overflow:hidden}#circulationHome video{width:100%;height:100%;object-fit:cover;display:block}.homeHit{position:absolute;left:0;width:100%;height:25%;cursor:pointer;background:transparent;border:0}.homeHit:hover{background:rgba(123,208,179,.06)}#hitVideos{top:0}#hitReviser{top:25%}#hitTester{top:50%}#hitProgression{top:75%}.homeHint{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-size:12px;letter-spacing:.12em;color:#fff9;background:#0007;padding:8px 12px;border-radius:99px;pointer-events:none}.worldPage{display:none;min-height:100vh}.worldPage.active{display:block}.backHome{margin-bottom:22px}body.inHome>header,body.inHome>main{display:none}body.inWorld #student{display:block!important}
+/* HOME CIRCULATION */
+#circulationHome{position:fixed;inset:0;z-index:9999;background:#000;overflow:hidden}
+#circulationHome video{width:100%;height:100%;object-fit:cover;display:block}
+#circulationHint{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);padding:10px 16px;border-radius:999px;background:#0008;color:#fff;font-size:13px;backdrop-filter:blur(8px);pointer-events:none}
+body.home-active>header,body.home-active>main{visibility:hidden}
 </style></head>
-<body class="inHome">
-<section id="circulationHome"><video id="homeVideo" muted playsinline preload="auto"><source src="osteo-pratik-home-circulation.mp4" type="video/mp4"></video><button class="homeHit" id="hitVideos" aria-label="Vidéos" onclick="openWorld('videos')"></button><button class="homeHit" id="hitReviser" aria-label="Réviser" onclick="openWorld('reviser')"></button><button class="homeHit" id="hitTester" aria-label="Tester" onclick="openWorld('tester')"></button><button class="homeHit" id="hitProgression" aria-label="Progression" onclick="openWorld('progression')"></button><div class="homeHint">Faites défiler pour circuler · cliquez sur un monde</div></section>
+<body class="home-active">
+<section id="circulationHome" aria-label="Accueil Ostéo Pratik">
+  <video id="homeVideo" preload="auto" playsinline muted>
+    <source src="osteo-pratik-home-circulation.mp4" type="video/mp4">
+  </video>
+  <div id="circulationHint">Fais défiler pour avancer ou reculer</div>
+</section>
 
 <header><div class="logo">OSTÉO<b>·</b>PRATIK</div><nav><button onclick="showStudent()">Étudiant</button><button onclick="showAdmin()">Back-office</button></nav></header>
 <main>
 <section id="student">
-<div id="worldVideos" class="worldPage"><button class="backHome" onclick="goHome()">← Retour à l’accueil</button><div class="tag">Bibliothèque pédagogique</div><h1>Voir. Comprendre.<br>Pratiquer.</h1><p class="muted">Les techniques publiées sont accessibles par région et articulation.</p>
+<div class="tag">Bibliothèque pédagogique</div><h1>Voir. Comprendre.<br>Pratiquer.</h1><p class="muted">Les techniques publiées sont accessibles par région et articulation.</p>
 <div class="stats"><div class="stat"><b id="sTotal">0</b>techniques publiées</div><div class="stat"><b id="sVideo">0</b>vidéos disponibles</div><div class="stat"><b id="sMissing">0</b>vidéos manquantes</div></div>
 <div class="filters"><input id="search" placeholder="Rechercher une technique…" oninput="renderStudent()"><select id="world" onchange="renderStudent()"><option value="">Tous les mondes</option></select><select id="region" onchange="renderStudent()"><option value="">Toutes les régions</option></select></div>
-<div id="cards" class="grid"></div></div><div id="worldReviser" class="worldPage"><button class="backHome" onclick="goHome()">← Retour à l’accueil</button><div class="tag">Réviser</div><h1>Réviser.</h1><p class="muted">Retrouvez ici les fiches et contenus de mémorisation associés aux techniques.</p></div><div id="worldTester" class="worldPage"><button class="backHome" onclick="goHome()">← Retour à l’accueil</button><div class="tag">Tester</div><h1>Tester.</h1><p class="muted">Quiz et exercices pratiques.</p></div><div id="worldProgression" class="worldPage"><button class="backHome" onclick="goHome()">← Retour à l’accueil</button><div class="tag">Progression</div><h1>Progression.</h1><p class="muted">Suivi des vidéos vues, révisions et résultats.</p></div></section>
+<div id="cards" class="grid"></div></section>
 
 <section id="admin" class="hidden">
 <div class="tag">Administration</div><h1>Back-office.</h1><p class="muted">Ajoute, corrige, classe et publie les techniques. Les modifications sont immédiatement répercutées côté étudiant sur ce navigateur.</p>
@@ -83,11 +92,31 @@ function saveTechnique(e){e.preventDefault();const id=+$('eId').value,x=techniqu
 function deleteTechnique(){const id=+$('eId').value;if(confirm('Supprimer cette technique ?')){techniques=techniques.filter(x=>x.id!==id);persist();renderAdmin();renderStudent();editor.close();}}
 function resetData(){if(confirm("Restaurer les 135 techniques d'origine ?")){techniques=structuredClone(ORIGINAL);persist();fillFilters();renderAdmin();renderStudent();}}
 function exportData(){const blob=new Blob([JSON.stringify(techniques,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='osteo-pratik-techniques.json';a.click();URL.revokeObjectURL(a.href);}
-function showStudent(){$('student').classList.remove('hidden');$('admin').classList.add('hidden');
-function goHome(){document.body.className='inHome';$('circulationHome').style.display='block';$('admin').classList.add('hidden');$('student').classList.remove('hidden');document.querySelectorAll('.worldPage').forEach(x=>x.classList.remove('active'));}
-function openWorld(name){document.body.className='inWorld';$('circulationHome').style.display='none';$('admin').classList.add('hidden');$('student').classList.remove('hidden');document.querySelectorAll('.worldPage').forEach(x=>x.classList.remove('active'));const map={videos:'worldVideos',reviser:'worldReviser',tester:'worldTester',progression:'worldProgression'};$(map[name]).classList.add('active');if(name==='videos'){fillFilters();renderStudent();}window.scrollTo(0,0);}
-const hv=$('homeVideo');let homeTarget=0;hv.addEventListener('loadedmetadata',()=>{hv.pause();homeTarget=0;hv.currentTime=0;});window.addEventListener('wheel',e=>{if(!document.body.classList.contains('inHome')||!hv.duration)return;e.preventDefault();homeTarget=Math.max(0,Math.min(hv.duration-.03,homeTarget+e.deltaY*0.0028));hv.currentTime=homeTarget;},{passive:false});let ty=null;window.addEventListener('touchstart',e=>{if(document.body.classList.contains('inHome'))ty=e.touches[0].clientY},{passive:true});window.addEventListener('touchmove',e=>{if(ty===null||!hv.duration)return;let y=e.touches[0].clientY;homeTarget=Math.max(0,Math.min(hv.duration-.03,homeTarget+(ty-y)*0.008));hv.currentTime=homeTarget;ty=y;},{passive:true});
-fillFilters();renderStudent();}
-function showAdmin(){document.body.className='';$('circulationHome').style.display='none';$('student').classList.add('hidden');$('admin').classList.remove('hidden');renderAdmin();}
+function showStudent(){$('student').classList.remove('hidden');$('admin').classList.add('hidden');fillFilters();renderStudent();}
+function showAdmin(){$('student').classList.add('hidden');$('admin').classList.remove('hidden');renderAdmin();}
 fillFilters();renderStudent();
+
+// Navigation vidéo d'accueil : le scroll pilote directement la lecture.
+const circulationHome=document.getElementById('circulationHome');
+const homeVideo=document.getElementById('homeVideo');
+let targetTime=0, rafHome=0, touchY=null;
+function clampHome(v){return Math.max(0,Math.min(homeVideo.duration||10,v));}
+function paintHome(){
+  if(!Number.isFinite(homeVideo.duration)) return;
+  const d=targetTime-homeVideo.currentTime;
+  if(Math.abs(d)>.012){homeVideo.currentTime=clampHome(homeVideo.currentTime+d*.28);rafHome=requestAnimationFrame(paintHome)}else{homeVideo.currentTime=clampHome(targetTime);rafHome=0}
+}
+function scrubHome(delta){
+  if(!Number.isFinite(homeVideo.duration)) return;
+  targetTime=clampHome(targetTime+delta);
+  if(!rafHome) rafHome=requestAnimationFrame(paintHome);
+}
+window.addEventListener('wheel',e=>{if(!document.body.classList.contains('home-active'))return;e.preventDefault();scrubHome(e.deltaY*.0045)},{passive:false});
+window.addEventListener('touchstart',e=>{if(document.body.classList.contains('home-active'))touchY=e.touches[0].clientY},{passive:true});
+window.addEventListener('touchmove',e=>{if(!document.body.classList.contains('home-active')||touchY===null)return;const y=e.touches[0].clientY;scrubHome((touchY-y)*.012);touchY=y},{passive:true});
+homeVideo.addEventListener('loadedmetadata',()=>{homeVideo.pause();homeVideo.currentTime=0;targetTime=0});
+homeVideo.addEventListener('error',()=>{document.getElementById('circulationHint').textContent='Vidéo introuvable : vérifie que les deux fichiers sont côte à côte.'});
+// Pour ce prototype, un clic à la fin de la circulation entre dans l'application complète.
+circulationHome.addEventListener('click',()=>{if(Number.isFinite(homeVideo.duration)&&homeVideo.currentTime>=homeVideo.duration*.88){circulationHome.style.display='none';document.body.classList.remove('home-active');showStudent();}});
+
 </script></body></html>
