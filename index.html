@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ostéo Pratik — Techniques & Back-office</title>
@@ -388,11 +387,22 @@ function deleteTechnique(){const id=+$('eId').value;if(confirm('Supprimer cette 
 function resetData(){if(confirm("Restaurer les 135 techniques d'origine ?")){techniques=structuredClone(ORIGINAL);persist();renderAdmin();renderStudent();}}
 function exportData(){const blob=new Blob([JSON.stringify(techniques,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='osteo-pratik-techniques.json';a.click();URL.revokeObjectURL(a.href);}
 function showStudent(){openVideos();}
-function showAdmin(){$('student').classList.add('hidden');$('modulePlaceholder').classList.add('hidden');$('admin').classList.remove('hidden');renderAdmin();document.querySelector('main').scrollIntoView({behavior:'smooth'});}
-function goHome(){$('student').classList.remove('hidden');$('modulePlaceholder').classList.add('hidden');$('admin').classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'});const v=$('homeVideo');if(v){v.pause();v.currentTime=0;}});const v=$('homeVideo');if(v){v.pause();v.currentTime=0;}}
-renderVideoNavigation();}
-function showAdmin(){$('student').classList.add('hidden');$('admin').classList.remove('hidden');renderAdmin();}
-fillFilters();renderStudent();
+function showAdmin(){
+  $('student').classList.add('hidden');
+  $('modulePlaceholder').classList.add('hidden');
+  $('admin').classList.remove('hidden');
+  renderAdmin();
+  document.querySelector('main').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function goHome(){
+  $('student').classList.remove('hidden');
+  $('modulePlaceholder').classList.add('hidden');
+  $('admin').classList.add('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+  const v=$('homeVideo');
+  if(v){v.pause();v.currentTime=0;}
+}
+renderVideoNavigation();
 </script>
 <script id="home-video-script">
 (()=>{
