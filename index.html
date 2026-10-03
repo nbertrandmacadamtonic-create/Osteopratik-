@@ -20,17 +20,29 @@ iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:14px;background:#000}
 <style id="home-video-style">
 #homeVideoPage{position:fixed;inset:0;z-index:9999;background:#000;overflow:hidden}
 #homeVideoPage video{width:100%;height:100%;object-fit:cover;display:block}
-#homeEnter{position:absolute;inset:0;border:0;background:transparent;cursor:pointer}
+#homeEnter{position:absolute;inset:0;border:0;background:transparent;cursor:grab;z-index:1}
+#homeNav{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:3;display:flex;gap:10px;padding:10px;background:#07171acc;border:1px solid #315159;border-radius:999px;backdrop-filter:blur(14px);box-shadow:0 12px 40px #0008}
+#homeNav button{min-width:112px;background:#10272be8}
+#homeNav button:hover{background:#17383e;border-color:var(--accent)}
+#homeHint{position:absolute;left:50%;bottom:94px;transform:translateX(-50%);z-index:3;color:#fff;background:#0007;padding:8px 13px;border-radius:999px;font-size:12px;letter-spacing:.04em;pointer-events:none}
 body.home-active>header,body.home-active>main{visibility:hidden}
+@media(max-width:700px){#homeNav{width:calc(100% - 24px);bottom:14px;display:grid;grid-template-columns:1fr 1fr;border-radius:22px}#homeNav button{min-width:0;padding:9px 8px}#homeHint{bottom:116px;white-space:nowrap}}
 </style>
 </head>
 <body>
 <section id="homeVideoPage" aria-label="Accueil Ostéo Pratik">
   <video id="homeVideo" muted playsinline preload="auto" src="osteo-pratik-home.mp4"></video>
-  <button id="homeEnter" aria-label="Entrer dans Ostéo Pratik"></button>
+  <button id="homeEnter" aria-label="Faire défiler la vidéo d’accueil"></button>
+  <div id="homeHint">Fais défiler pour avancer ou revenir dans l’univers</div>
+  <nav id="homeNav" aria-label="Navigation principale">
+    <button type="button" data-dest="videos">Vidéos</button>
+    <button type="button" data-dest="revision">Réviser</button>
+    <button type="button" data-dest="tester">Tester</button>
+    <button type="button" data-dest="progression">Progression</button>
+  </nav>
 </section>
 
-<header><div class="logo">OSTÉO<b>·</b>PRATIK</div><nav><button onclick="showStudent()">Étudiant</button><button onclick="showAdmin()">Back-office</button></nav></header>
+<header><div class="logo">OSTÉO<b>·</b>PRATIK</div><nav><button onclick="showHome()">Accueil</button><button onclick="showStudent()">Étudiant</button><button onclick="showAdmin()">Back-office</button></nav></header>
 <main>
 <section id="student">
 <div class="tag">Bibliothèque pédagogique</div><h1>Voir. Comprendre.<br>Pratiquer.</h1><p class="muted">Les techniques publiées sont accessibles par région et articulation.</p>
@@ -91,21 +103,24 @@ function saveTechnique(e){e.preventDefault();const id=+$('eId').value,x=techniqu
 function deleteTechnique(){const id=+$('eId').value;if(confirm('Supprimer cette technique ?')){techniques=techniques.filter(x=>x.id!==id);persist();renderAdmin();renderStudent();editor.close();}}
 function resetData(){if(confirm("Restaurer les 135 techniques d'origine ?")){techniques=structuredClone(ORIGINAL);persist();fillFilters();renderAdmin();renderStudent();}}
 function exportData(){const blob=new Blob([JSON.stringify(techniques,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='osteo-pratik-techniques.json';a.click();URL.revokeObjectURL(a.href);}
+function showHome(){const page=$('homeVideoPage');page.style.display='block';document.body.classList.add('home-active');window.scrollTo(0,0);}
 function showStudent(){$('student').classList.remove('hidden');$('admin').classList.add('hidden');fillFilters();renderStudent();}
 function showAdmin(){$('student').classList.add('hidden');$('admin').classList.remove('hidden');renderAdmin();}
 fillFilters();renderStudent();
 </script>
 <script id="home-video-script">
 (()=>{
- const page=document.getElementById('homeVideoPage'), v=document.getElementById('homeVideo');
+ const page=document.getElementById('homeVideoPage'),v=document.getElementById('homeVideo');
  document.body.classList.add('home-active');
- let target=0;
+ let target=0,y=null;
  const clamp=t=>Math.max(0,Math.min((v.duration||10)-0.03,t));
- addEventListener('wheel',e=>{if(!page||page.style.display==='none')return;e.preventDefault();target=clamp(target+e.deltaY*0.0028);v.currentTime=target;},{passive:false});
- let y=null;
+ const scrub=d=>{target=clamp(target+d);v.currentTime=target};
+ addEventListener('wheel',e=>{if(!page||page.style.display==='none')return;e.preventDefault();scrub(e.deltaY*0.0028)},{passive:false});
  addEventListener('touchstart',e=>{if(page&&page.style.display!=='none')y=e.touches[0].clientY},{passive:true});
- addEventListener('touchmove',e=>{if(y===null||!page||page.style.display==='none')return;const ny=e.touches[0].clientY;target=clamp(target+(y-ny)*0.012);v.currentTime=target;y=ny;},{passive:true});
- document.getElementById('homeEnter').addEventListener('click',()=>{page.style.display='none';document.body.classList.remove('home-active');});
+ addEventListener('touchmove',e=>{if(y===null||!page||page.style.display==='none')return;const ny=e.touches[0].clientY;scrub((y-ny)*0.012);y=ny},{passive:true});
+ addEventListener('touchend',()=>y=null,{passive:true});
+ function enter(dest){page.style.display='none';document.body.classList.remove('home-active');showStudent();if(dest==='videos')document.getElementById('search').focus();else alert(dest==='revision'?'Espace Réviser : navigation prête à être reliée à ton module de révision.':dest==='tester'?'Espace Tester : navigation prête à être reliée à ton quiz.':'Espace Progression : navigation prête à être reliée au suivi de progression.')}
+ document.querySelectorAll('#homeNav [data-dest]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();enter(b.dataset.dest)}));
 })();
 </script>
 </body></html>
