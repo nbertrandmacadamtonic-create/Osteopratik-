@@ -1,29 +1,910 @@
-<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ostéo Pratik V3</title><style>
-:root{--b:#07111d;--p:#0d1d2c;--l:#203d55;--c:#59c6ff;--m:#93aabd}*{box-sizing:border-box}body{margin:0;background:var(--b);color:white;font-family:system-ui,-apple-system}
-header{position:sticky;top:0;z-index:5;background:#07111def;backdrop-filter:blur(15px);border-bottom:1px solid var(--l);display:flex;align-items:center;justify-content:space-between;padding:15px 5vw}.brand{font-weight:900;font-size:21px}.brand span{color:var(--c)}nav button,.btn{border:0;border-radius:10px;padding:10px 14px;background:transparent;color:#c8d7e3;cursor:pointer}.btn{background:var(--c);color:#04121d;font-weight:800}.hero{padding:70px 5vw 35px;background:radial-gradient(circle at 70% 0,#164467,#07111d 50%)}h1{font-size:clamp(36px,6vw,76px);margin:0;line-height:.95}.hero p{color:var(--m);font-size:18px;max-width:650px}.universes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:35px}.u{padding:20px;border:1px solid var(--l);border-radius:17px;background:#0c1b29aa}.u b{display:block;font-size:20px;margin-top:8px}.wrap{padding:30px 5vw 70px}.filters{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0}.filters button{background:#10263a;color:#c7d8e5;border:1px solid var(--l);padding:9px 13px;border-radius:99px;cursor:pointer}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.card{background:var(--p);border:1px solid var(--l);border-radius:16px;overflow:hidden}.video{aspect-ratio:16/9;background:#03080d}.video iframe{width:100%;height:100%;border:0}.content{padding:16px}.meta{color:var(--c);font-size:12px}.muted{color:var(--m)}#admin{display:none}.adminShell{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 61px)}aside{padding:24px 15px;border-right:1px solid var(--l);background:#091725}aside button{width:100%;text-align:left;display:block;margin:4px 0}.adminMain{padding:30px}.top{display:flex;justify-content:space-between;align-items:center}.panel{background:var(--p);border:1px solid var(--l);border-radius:16px;padding:18px;margin-top:20px}table{width:100%;border-collapse:collapse}td,th{padding:11px;border-bottom:1px solid #193348;text-align:left}.modal{display:none;position:fixed;inset:0;background:#000c;z-index:20;align-items:center;justify-content:center}.modal.on{display:flex}.box{background:#0c1c2b;border:1px solid #31516a;border-radius:18px;padding:22px;width:min(720px,94%);max-height:92vh;overflow:auto}.form{display:grid;grid-template-columns:1fr 1fr;gap:11px}input,select,textarea{width:100%;padding:11px;border-radius:9px;border:1px solid #31516a;background:#07131f;color:white}.full{grid-column:1/-1}.actions{text-align:right;margin-top:14px}.empty{padding:50px;text-align:center;color:var(--m)}
-@media(max-width:850px){.universes,.grid{grid-template-columns:1fr 1fr}.adminShell{grid-template-columns:1fr}aside{display:flex;overflow:auto}.form{grid-template-columns:1fr}}@media(max-width:520px){.universes,.grid{grid-template-columns:1fr}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ostéo Pratik</title>
+
+<style>
+:root{
+  --bg:#07151a;
+  --panel:#10272e;
+  --line:#2f5964;
+  --txt:#f4f7f8;
+  --muted:#9db2b8;
+  --accent:#79c9b4;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at top,#16333b,#07151a 55%);
+  color:var(--txt);
+  min-height:100vh;
+}
+
+header{
+  padding:26px 20px;
+  text-align:center;
+}
+
+.logo{
+  font-size:clamp(30px,5vw,58px);
+  font-weight:800;
+  letter-spacing:.08em;
+}
+
+.subtitle{
+  color:var(--muted);
+  margin-top:8px;
+}
+
+/* MONDES */
+
+.screen{
+  display:none;
+  max-width:1100px;
+  margin:auto;
+  padding:30px 22px 80px;
+  animation:apparition .35s ease;
+}
+
+.screen.active{
+  display:block;
+}
+
+@keyframes apparition{
+  from{
+    opacity:0;
+    transform:translateY(12px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+h1{
+  font-size:clamp(38px,7vw,78px);
+  margin:20px 0 8px;
+}
+
+h2{
+  font-size:clamp(28px,5vw,48px);
+}
+
+.intro{
+  color:var(--muted);
+  font-size:18px;
+  margin-bottom:30px;
+}
+
+/* CARTES */
+
+.grid{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fit,minmax(210px,1fr));
+  gap:18px;
+  margin-top:28px;
+}
+
+.card{
+  border:1px solid var(--line);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(30,69,78,.85),
+      rgba(11,29,35,.9)
+    );
+
+  border-radius:24px;
+  padding:28px 22px;
+  min-height:175px;
+
+  color:white;
+  cursor:pointer;
+  text-align:left;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+
+  transition:.25s;
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:var(--accent);
+}
+
+.card h3{
+  font-size:25px;
+  margin:0 0 8px;
+}
+
+.card p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+/* NAVIGATION */
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.back{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+  color:white;
+
+  padding:10px 17px;
+  border-radius:30px;
+
+  cursor:pointer;
+}
+
+.breadcrumb{
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* TECHNIQUES */
+
+.technique{
+  min-height:130px;
+}
+
+.technique strong{
+  color:var(--accent);
+}
+
+.empty{
+  color:var(--muted);
+  padding:25px 0;
+}
+
 </style>
-<header><div class="brand">OSTÉO <span>PRATIK</span></div><nav><button onclick="showPublic()">Site étudiant</button><button onclick="showAdmin()">Administration</button></nav></header>
-<section id="public"><div class="hero"><h1>Apprendre.<br>Comprendre.<br>Maîtriser.</h1><p>Explorez les techniques d’ostéopathie par région anatomique, révisez et testez vos connaissances.</p><div class="universes"><div class="u">▶<b>Vidéos</b><span class="muted">Voir les techniques</span></div><div class="u">◈<b>Réviser</b><span class="muted">Mémoriser</span></div><div class="u">✓<b>Tester</b><span class="muted">Quiz & pratique</span></div><div class="u">↗<b>Progression</b><span class="muted">Suivre ses acquis</span></div></div></div>
-<div class="wrap"><h2>Bibliothèque vidéo</h2><div class="filters" id="filters"></div><div class="grid" id="cards"></div></div></section>
-<section id="admin"><div class="adminShell"><aside><button class="btn" onclick="showPublic()">← Voir le site</button><button>▶ Vidéos</button><button>◈ Réviser</button><button>✓ Tester</button><button>↗ Progression</button><button>▤ Pages</button></aside><div class="adminMain"><div class="top"><div><h2>Administration</h2><div class="muted">Une publication apparaît immédiatement sur le site étudiant.</div></div><button class="btn" onclick="openM()">+ Ajouter</button></div><div class="panel"><table><thead><tr><th>Technique</th><th>Zone</th><th>Articulation</th><th>Statut</th><th></th></tr></thead><tbody id="rows"></tbody></table></div></div></div></section>
-<div class="modal" id="modal"><div class="box"><h2>Ajouter une technique</h2><form id="form"><div class="form"><input class="full" id="title" required placeholder="Titre"><select id="zone"><option>Rachis</option><option>Bassin</option><option>Membre supérieur</option><option>Membre inférieur</option></select><input id="joint" placeholder="Articulation"><select id="level"><option>Débutant</option><option>Intermédiaire</option><option>Avancé</option></select><select id="status"><option>Publié</option><option>Brouillon</option></select><input class="full" id="vimeo" placeholder="Lien Vimeo : https://vimeo.com/123456789"><textarea class="full" id="desc" rows="4" placeholder="Description / points clés"></textarea></div><div class="actions"><button type="button" onclick="closeM()">Annuler</button> <button class="btn">Publier / enregistrer</button></div></form></div></div>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+OSTÉO PRATIK
+</div>
+
+<div class="subtitle">
+VOIR · COMPRENDRE · PRATIQUER
+</div>
+
+</header>
+
+
+<main>
+
+<!-- ======================== -->
+<!-- ACCUEIL -->
+<!-- ======================== -->
+
+<section id="home" class="screen active">
+
+<h1>Apprendre autrement.</h1>
+
+<p class="intro">
+Choisis ton univers.
+</p>
+
+<div class="grid">
+
+<button class="card"
+onclick="go('videos')">
+
+<h3>Vidéos</h3>
+
+<p>
+Explorer les techniques
+ostéopathiques.
+</p>
+
+</button>
+
+
+<button class="card"
+onclick="go('revision')">
+
+<h3>Réviser</h3>
+
+<p>
+Revoir et mémoriser
+les techniques.
+</p>
+
+</button>
+
+
+<button class="card"
+onclick="go('tester')">
+
+<h3>Tester</h3>
+
+<p>
+Quiz et entraînement.
+</p>
+
+</button>
+
+
+<button class="card"
+onclick="go('progression')">
+
+<h3>Progression</h3>
+
+<p>
+Suivre ton apprentissage.
+</p>
+
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- ======================== -->
+<!-- MONDE VIDÉOS -->
+<!-- ======================== -->
+
+<section id="videos" class="screen">
+
+<div class="topbar">
+
+<button class="back"
+onclick="go('home')">
+← Accueil
+</button>
+
+<span class="breadcrumb">
+Accueil › Vidéos
+</span>
+
+</div>
+
+<h1>Vidéos</h1>
+
+<p class="intro">
+Choisis maintenant un monde anatomique.
+</p>
+
+
+<div class="grid">
+
+
+<button class="card"
+onclick="go('rachis')">
+
+<h3>Rachis</h3>
+
+<p>
+Cervicales · Dorsales · Lombaires
+</p>
+
+</button>
+
+
+
+<button class="card"
+onclick="go('bassin')">
+
+<h3>Bassin</h3>
+
+<p>
+Sacro-iliaque · Sacrum · Symphyse
+</p>
+
+</button>
+
+
+
+<button class="card"
+onclick="go('membre-superieur')">
+
+<h3>Membre supérieur</h3>
+
+<p>
+Épaule · Coude · Poignet · Main
+</p>
+
+</button>
+
+
+
+<button class="card"
+onclick="go('membre-inferieur')">
+
+<h3>Membre inférieur</h3>
+
+<p>
+Hanche · Genou · Cheville · Pied
+</p>
+
+</button>
+
+
+</div>
+
+</section>
+
+
+
+<!-- ======================== -->
+<!-- RACHIS -->
+<!-- ======================== -->
+
+<section id="rachis" class="screen">
+
+<div class="topbar">
+
+<button class="back"
+onclick="go('videos')">
+← Vidéos
+</button>
+
+<span class="breadcrumb">
+Vidéos › Rachis
+</span>
+
+</div>
+
+<h1>Rachis</h1>
+
+<p class="intro">
+Choisis une région du rachis.
+</p>
+
+<div class="grid">
+
+<button class="card"
+onclick="openZone('Cervicales','rachis')">
+
+<h3>Cervicales</h3>
+
+</button>
+
+
+<button class="card"
+onclick="openZone('Dorsales','rachis')">
+
+<h3>Dorsales</h3>
+
+</button>
+
+
+<button class="card"
+onclick="openZone('Lombaires','rachis')">
+
+<h3>Lombaires</h3>
+
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- ======================== -->
+<!-- BASSIN -->
+<!-- ======================== -->
+
+<section id="bassin" class="screen">
+
+<div class="topbar">
+
+<button class="back"
+onclick="go('videos')">
+← Vidéos
+</button>
+
+<span class="breadcrumb">
+Vidéos › Bassin
+</span>
+
+</div>
+
+<h1>Bassin</h1>
+
+<div class="grid">
+
+
+<button class="card"
+onclick="openZone('Sacro-iliaque','bassin')">
+
+<h3>Sacro-iliaque</h3>
+
+</button>
+
+
+<button class="card"
+onclick="openZone('Sacrum','bassin')">
+
+<h3>Sacrum</h3>
+
+</button>
+
+
+<button class="card"
+onclick="openZone('Symphyse','bassin')">
+
+<h3>Symphyse</h3>
+
+</button>
+
+
+</div>
+
+</section>
+
+
+
+<!-- ======================== -->
+<!-- MEMBRE SUPÉRIEUR -->
+<!-- ======================== -->
+
+<section id="membre-superieur"
+class="screen">
+
+<div class="topbar">
+
+<button class="back"
+onclick="go('videos')">
+← Vidéos
+</button>
+
+<span class="breadcrumb">
+Vidéos › Membre supérieur
+</span>
+
+</div>
+
+<h1>Membre supérieur</h1>
+
+<div class="grid">
+
+
+<button class="card"
+onclick="openZone('Épaule','membre-superieur')">
+
+<h3>Épaule</h3>
+
+</button>
+
+
+<button class="card"
+onclick="openZone('Coude','membre-superieur')">
+
+<h3>Coude</h3>
+
+</button>
+
+
+<button class="card"
+onclick="openZone('Poignet','membre-superieur')">
+
+<h3>Poignet</h3>
+
+</button>
+
+
+<button class="card"
+onclick="openZone('Main','membre-superieur')">
+
+<h3>Main</h3>
+
+</button>
+
+
+</div>
+
+</section>
+
+
+
+<!-- ======================== -->
+<!-- MEMBRE INFÉRIEUR -->
+<!-- ======================== -->
+
+<section id="membre-inferieur"
+class="screen">
+
+<div class="topbar">
+
+<button class="back"
+onclick="go('videos')">
+← Vidéos
+</button>
+
+<span class="breadcrumb">
+Vidéos › Membre inférieur
+</span>
+
+</div>
+
+<h1>Membre inférieur</h1>
+
+<div class="grid">
+
+
+<button class="card"
+onclick="openZone('Hanche','membre-inferieur')">
+
+<h3>Hanche</h3>
+
+</button>
+
+
+<button class="card"
+onclick="openZone('Genou','membre-inferieur')">
+
+<h3>Genou</h3>
+
+</button>
+
+
+<button class="card"
+onclick="openZone('Cheville','membre-inferieur')">
+
+<h3>Cheville</h3>
+
+</button>
+
+
+<button class="card"
+onclick="openZone('Pied','membre-inferieur')">
+
+<h3>Pied</h3>
+
+</button>
+
+
+</div>
+
+</section>
+
+
+
+<!-- ======================== -->
+<!-- SOUS-SOUS MENU -->
+<!-- TECHNIQUES -->
+<!-- ======================== -->
+
+<section id="zone"
+class="screen">
+
+<div class="topbar">
+
+<button class="back"
+onclick="go(parentWorld)">
+← Retour
+</button>
+
+<span
+id="zoneBreadcrumb"
+class="breadcrumb">
+</span>
+
+</div>
+
+<h1 id="zoneTitle">
+</h1>
+
+<p class="intro">
+Choisis une technique.
+</p>
+
+<div
+id="techniques"
+class="grid">
+</div>
+
+</section>
+
+
+
+<!-- ======================== -->
+<!-- RÉVISER -->
+<!-- ======================== -->
+
+<section id="revision"
+class="screen">
+
+<div class="topbar">
+
+<button class="back"
+onclick="go('home')">
+← Accueil
+</button>
+
+<span class="breadcrumb">
+Accueil › Réviser
+</span>
+
+</div>
+
+<h1>Réviser</h1>
+
+<p class="intro">
+Un monde entièrement consacré
+à la révision.
+</p>
+
+</section>
+
+
+
+<!-- ======================== -->
+<!-- TESTER -->
+<!-- ======================== -->
+
+<section id="tester"
+class="screen">
+
+<div class="topbar">
+
+<button class="back"
+onclick="go('home')">
+← Accueil
+</button>
+
+<span class="breadcrumb">
+Accueil › Tester
+</span>
+
+</div>
+
+<h1>Tester</h1>
+
+<p class="intro">
+Quiz et entraînement
+sur les techniques.
+</p>
+
+</section>
+
+
+
+<!-- ======================== -->
+<!-- PROGRESSION -->
+<!-- ======================== -->
+
+<section id="progression"
+class="screen">
+
+<div class="topbar">
+
+<button class="back"
+onclick="go('home')">
+← Accueil
+</button>
+
+<span class="breadcrumb">
+Accueil › Progression
+</span>
+
+</div>
+
+<h1>Progression</h1>
+
+<p class="intro">
+Retrouve ici ton parcours
+et tes techniques maîtrisées.
+</p>
+
+</section>
+
+</main>
+
+
 <script>
-const testData=[
-{title:'Dysfonction calcanéo-cuboïdienne en rotation interne',zone:'Membre inférieur',joint:'Pied · Calcanéo-cuboïdienne',level:'Intermédiaire',status:'Publié',vimeo:'https://vimeo.com/540020382',desc:'Vidéo retrouvée dans les données Ostéo Pratik.'},
-{title:'Dysfonction des 1re–2e côtes en abaissement — plan sagittal (EM)',zone:'Rachis',joint:'Côtes 1–2',level:'Intermédiaire',status:'Publié',vimeo:'https://vimeo.com/540084811',desc:'Vidéo retrouvée dans les données Ostéo Pratik.'},
-{title:'Sous-talienne / sous-astragalienne — calcanéum en valgus — droite',zone:'Membre inférieur',joint:'Sous-talienne',level:'Intermédiaire',status:'Publié',vimeo:'https://vimeo.com/1199647853',desc:'Vidéo retrouvée dans les données Ostéo Pratik.'},
-{title:'Vidéo retrouvée — intitulé à identifier (1198534346)',zone:'Rachis',joint:'À identifier',level:'Intermédiaire',status:'Publié',vimeo:'https://vimeo.com/1198534346',desc:'Lien retrouvé ; intitulé exact à recroiser avec le catalogue.'},
-{title:'Vidéo retrouvée — intitulé à identifier (540123060)',zone:'Bassin',joint:'À identifier',level:'Intermédiaire',status:'Publié',vimeo:'https://vimeo.com/540123060/eed12a4a77',desc:'Lien Vimeo non répertorié retrouvé avec hash privé.'},
-{title:'Vidéo retrouvée — intitulé à identifier (540021907)',zone:'Membre supérieur',joint:'À identifier',level:'Intermédiaire',status:'Publié',vimeo:'https://vimeo.com/540021907',desc:'Lien retrouvé ; intitulé exact à recroiser avec le catalogue.'}
-];
-let data=JSON.parse(localStorage.getItem('osteo_pratik_test_db')||'null')||testData;let active='Toutes';
-function save(){localStorage.setItem('osteo_pratik_test_db',JSON.stringify(data));render()}
-function vimeoEmbed(u){let m=(u||'').match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/([a-zA-Z0-9]+))?/);if(!m)return '';let src='https://player.vimeo.com/video/'+m[1];if(m[2])src+='?h='+m[2];return src}
-function render(){let zones=['Toutes',...new Set(data.filter(x=>x.status==='Publié').map(x=>x.zone))];filters.innerHTML=zones.map(z=>`<button onclick="active='${z}';render()">${z}</button>`).join('');
-let pub=data.filter(x=>x.status==='Publié'&&(active==='Toutes'||x.zone===active));cards.innerHTML=pub.length?pub.map(x=>{let src=vimeoEmbed(x.vimeo);return `<article class="card"><div class="video">${src?`<iframe src="${src}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`:`<div class="empty">Vidéo Vimeo à associer</div>`}</div><div class="content"><div class="meta">${x.zone} · ${x.joint||''} · ${x.level}</div><h3>${x.title}</h3><div class="muted">${x.desc||''}</div></div></article>`}).join(''):`<div class="empty">Aucune technique publiée dans cette catégorie.</div>`;
-rows.innerHTML=data.map((x,i)=>`<tr><td><b>${x.title}</b><div class="muted">${x.level}</div></td><td>${x.zone}</td><td>${x.joint||'—'}</td><td>${x.status}</td><td><button onclick="del(${i})">Supprimer</button></td></tr>`).join('')}
-function showAdmin(){public.style.display='none';admin.style.display='block'}function showPublic(){admin.style.display='none';public.style.display='block';render()}function openM(){modal.classList.add('on')}function closeM(){modal.classList.remove('on')}function del(i){if(confirm('Supprimer cette technique ?')){data.splice(i,1);save()}}
-form.onsubmit=e=>{e.preventDefault();data.push({title:title.value,zone:zone.value,joint:joint.value,level:level.value,status:status.value,vimeo:vimeo.value,desc:desc.value});save();form.reset();closeM()};render();
-</script></html>
+
+/* =========================
+   BASE DES TECHNIQUES
+========================= */
+
+const techniques = {
+
+"Dorsales":[
+
+{
+nom:
+"Dysfonction des 1re–2e côtes en abaissement — plan sagittal (EM)",
+
+video:
+"https://vimeo.com/540084811"
+}
+
+],
+
+
+"Pied":[
+
+{
+nom:
+"Dysfonction calcanéo-cuboïdienne en rotation interne",
+
+video:
+"https://vimeo.com/540020382"
+},
+
+{
+nom:
+"Sous-talienne / sous-astragalienne — calcanéum en valgus — droite",
+
+video:
+"https://vimeo.com/1199647853"
+}
+
+],
+
+
+"Cervicales":[],
+"Lombaires":[],
+
+"Sacro-iliaque":[],
+"Sacrum":[],
+"Symphyse":[],
+
+"Épaule":[],
+"Coude":[],
+"Poignet":[],
+"Main":[],
+
+"Hanche":[],
+"Genou":[],
+"Cheville":[]
+
+};
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+let parentWorld="videos";
+
+
+function go(id){
+
+document
+.querySelectorAll(".screen")
+.forEach(function(screen){
+
+screen.classList.remove("active");
+
+});
+
+document
+.getElementById(id)
+.classList.add("active");
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+/* =========================
+   OUVERTURE SOUS-RÉGION
+========================= */
+
+function openZone(zone,parent){
+
+parentWorld=parent;
+
+document
+.getElementById("zoneTitle")
+.textContent=zone;
+
+
+document
+.getElementById("zoneBreadcrumb")
+.textContent=
+"Vidéos › "+zone;
+
+
+const container=
+document.getElementById("techniques");
+
+
+container.innerHTML="";
+
+
+const liste=
+techniques[zone] || [];
+
+
+/* AUCUNE TECHNIQUE */
+
+if(liste.length===0){
+
+container.innerHTML=
+
+'<div class="card technique">'+
+
+'<h3>Techniques à venir</h3>'+
+
+'<p>'+
+'Cette région est prête à recevoir les vidéos.'+
+'</p>'+
+
+'</div>';
+
+}
+
+
+/* TECHNIQUES DISPONIBLES */
+
+liste.forEach(function(item){
+
+const bouton=
+document.createElement("button");
+
+
+bouton.className=
+"card technique";
+
+
+bouton.innerHTML=
+
+"<h3>"+
+item.nom+
+"</h3>"+
+
+"<p>"+
+"<strong>Voir la vidéo →</strong>"+
+"</p>";
+
+
+bouton.onclick=function(){
+
+window.open(
+item.video,
+"_blank"
+);
+
+};
+
+
+container.appendChild(
+bouton
+);
+
+});
+
+
+go("zone");
+
+}
+
+</script>
+
+</body>
+</html>
