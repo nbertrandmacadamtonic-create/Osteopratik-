@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
 <title>Ostéo Pratik</title>
 
 <style>
+
 :root{
   --bg:#07151a;
   --panel:#10272e;
@@ -45,7 +47,9 @@ header{
   margin-top:8px;
 }
 
-/* MONDES */
+/* =========================
+   ÉCRANS / MONDES
+========================= */
 
 .screen{
   display:none;
@@ -85,7 +89,9 @@ h2{
   margin-bottom:30px;
 }
 
-/* CARTES */
+/* =========================
+   CARTES
+========================= */
 
 .grid{
   display:grid;
@@ -103,21 +109,16 @@ h2{
       rgba(30,69,78,.85),
       rgba(11,29,35,.9)
     );
-
   border-radius:24px;
   padding:28px 22px;
   min-height:175px;
-
   color:white;
   cursor:pointer;
   text-align:left;
-
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
-
   transition:.25s;
-
   box-shadow:
     0 20px 50px rgba(0,0,0,.25);
 }
@@ -138,12 +139,15 @@ h2{
   line-height:1.5;
 }
 
-/* NAVIGATION */
+/* =========================
+   NAVIGATION
+========================= */
 
 .topbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  gap:15px;
   margin-bottom:25px;
 }
 
@@ -151,19 +155,24 @@ h2{
   border:1px solid var(--line);
   background:rgba(255,255,255,.04);
   color:white;
-
   padding:10px 17px;
   border-radius:30px;
-
   cursor:pointer;
+}
+
+.back:hover{
+  border-color:var(--accent);
 }
 
 .breadcrumb{
   color:var(--muted);
   font-size:14px;
+  text-align:right;
 }
 
-/* TECHNIQUES */
+/* =========================
+   TECHNIQUES
+========================= */
 
 .technique{
   min-height:130px;
@@ -195,12 +204,11 @@ VOIR · COMPRENDRE · PRATIQUER
 
 </header>
 
-
 <main>
 
-<!-- ======================== -->
+<!-- ================================================= -->
 <!-- ACCUEIL -->
-<!-- ======================== -->
+<!-- ================================================= -->
 
 <section id="home" class="screen active">
 
@@ -212,53 +220,32 @@ Choisis ton univers.
 
 <div class="grid">
 
-<button class="card"
-onclick="go('videos')">
-
+<button class="card" onclick="go('videos')">
 <h3>Vidéos</h3>
-
 <p>
-Explorer les techniques
-ostéopathiques.
+Explorer les techniques ostéopathiques.
 </p>
-
 </button>
 
-
-<button class="card"
-onclick="go('revision')">
-
+<button class="card" onclick="go('revision')">
 <h3>Réviser</h3>
-
 <p>
-Revoir et mémoriser
-les techniques.
+Revoir et mémoriser les techniques.
 </p>
-
 </button>
 
-
-<button class="card"
-onclick="go('tester')">
-
+<button class="card" onclick="go('tester')">
 <h3>Tester</h3>
-
 <p>
 Quiz et entraînement.
 </p>
-
 </button>
 
-
-<button class="card"
-onclick="go('progression')">
-
+<button class="card" onclick="go('progression')">
 <h3>Progression</h3>
-
 <p>
 Suivre ton apprentissage.
 </p>
-
 </button>
 
 </div>
@@ -266,17 +253,15 @@ Suivre ton apprentissage.
 </section>
 
 
-
-<!-- ======================== -->
+<!-- ================================================= -->
 <!-- MONDE VIDÉOS -->
-<!-- ======================== -->
+<!-- ================================================= -->
 
 <section id="videos" class="screen">
 
 <div class="topbar">
 
-<button class="back"
-onclick="go('home')">
+<button class="back" onclick="go('home')">
 ← Accueil
 </button>
 
@@ -289,80 +274,53 @@ Accueil › Vidéos
 <h1>Vidéos</h1>
 
 <p class="intro">
-Choisis maintenant un monde anatomique.
+Choisis un monde anatomique.
 </p>
-
 
 <div class="grid">
 
-
-<button class="card"
-onclick="go('rachis')">
-
+<button class="card" onclick="go('rachis')">
 <h3>Rachis</h3>
-
 <p>
 Cervicales · Dorsales · Lombaires
 </p>
-
 </button>
 
-
-
-<button class="card"
-onclick="go('bassin')">
-
+<button class="card" onclick="go('bassin')">
 <h3>Bassin</h3>
-
 <p>
 Sacro-iliaque · Sacrum · Symphyse
 </p>
-
 </button>
 
-
-
-<button class="card"
-onclick="go('membre-superieur')">
-
+<button class="card" onclick="go('membre-superieur')">
 <h3>Membre supérieur</h3>
-
 <p>
 Épaule · Coude · Poignet · Main
 </p>
-
 </button>
 
-
-
-<button class="card"
-onclick="go('membre-inferieur')">
-
+<button class="card" onclick="go('membre-inferieur')">
 <h3>Membre inférieur</h3>
-
 <p>
 Hanche · Genou · Cheville · Pied
 </p>
-
 </button>
-
 
 </div>
 
 </section>
 
 
-
-<!-- ======================== -->
+<!-- ================================================= -->
 <!-- RACHIS -->
-<!-- ======================== -->
+<!-- ================================================= -->
 
 <section id="rachis" class="screen">
 
 <div class="topbar">
 
-<button class="back"
-onclick="go('videos')">
+<button class="back" onclick="go('videos')">
 ← Vidéos
 </button>
 
@@ -382,25 +340,17 @@ Choisis une région du rachis.
 
 <button class="card"
 onclick="openZone('Cervicales','rachis')">
-
 <h3>Cervicales</h3>
-
 </button>
-
 
 <button class="card"
 onclick="openZone('Dorsales','rachis')">
-
 <h3>Dorsales</h3>
-
 </button>
-
 
 <button class="card"
 onclick="openZone('Lombaires','rachis')">
-
 <h3>Lombaires</h3>
-
 </button>
 
 </div>
@@ -408,17 +358,15 @@ onclick="openZone('Lombaires','rachis')">
 </section>
 
 
-
-<!-- ======================== -->
+<!-- ================================================= -->
 <!-- BASSIN -->
-<!-- ======================== -->
+<!-- ================================================= -->
 
 <section id="bassin" class="screen">
 
 <div class="topbar">
 
-<button class="back"
-onclick="go('videos')">
+<button class="back" onclick="go('videos')">
 ← Vidéos
 </button>
 
@@ -430,50 +378,41 @@ Vidéos › Bassin
 
 <h1>Bassin</h1>
 
-<div class="grid">
+<p class="intro">
+Choisis une région du bassin.
+</p>
 
+<div class="grid">
 
 <button class="card"
 onclick="openZone('Sacro-iliaque','bassin')">
-
 <h3>Sacro-iliaque</h3>
-
 </button>
-
 
 <button class="card"
 onclick="openZone('Sacrum','bassin')">
-
 <h3>Sacrum</h3>
-
 </button>
-
 
 <button class="card"
 onclick="openZone('Symphyse','bassin')">
-
 <h3>Symphyse</h3>
-
 </button>
-
 
 </div>
 
 </section>
 
 
-
-<!-- ======================== -->
+<!-- ================================================= -->
 <!-- MEMBRE SUPÉRIEUR -->
-<!-- ======================== -->
+<!-- ================================================= -->
 
-<section id="membre-superieur"
-class="screen">
+<section id="membre-superieur" class="screen">
 
 <div class="topbar">
 
-<button class="back"
-onclick="go('videos')">
+<button class="back" onclick="go('videos')">
 ← Vidéos
 </button>
 
@@ -485,58 +424,46 @@ Vidéos › Membre supérieur
 
 <h1>Membre supérieur</h1>
 
-<div class="grid">
+<p class="intro">
+Choisis une articulation.
+</p>
 
+<div class="grid">
 
 <button class="card"
 onclick="openZone('Épaule','membre-superieur')">
-
 <h3>Épaule</h3>
-
 </button>
-
 
 <button class="card"
 onclick="openZone('Coude','membre-superieur')">
-
 <h3>Coude</h3>
-
 </button>
-
 
 <button class="card"
 onclick="openZone('Poignet','membre-superieur')">
-
 <h3>Poignet</h3>
-
 </button>
-
 
 <button class="card"
 onclick="openZone('Main','membre-superieur')">
-
 <h3>Main</h3>
-
 </button>
-
 
 </div>
 
 </section>
 
 
-
-<!-- ======================== -->
+<!-- ================================================= -->
 <!-- MEMBRE INFÉRIEUR -->
-<!-- ======================== -->
+<!-- ================================================= -->
 
-<section id="membre-inferieur"
-class="screen">
+<section id="membre-inferieur" class="screen">
 
 <div class="topbar">
 
-<button class="back"
-onclick="go('videos')">
+<button class="back" onclick="go('videos')">
 ← Vidéos
 </button>
 
@@ -548,59 +475,46 @@ Vidéos › Membre inférieur
 
 <h1>Membre inférieur</h1>
 
-<div class="grid">
+<p class="intro">
+Choisis une articulation.
+</p>
 
+<div class="grid">
 
 <button class="card"
 onclick="openZone('Hanche','membre-inferieur')">
-
 <h3>Hanche</h3>
-
 </button>
-
 
 <button class="card"
 onclick="openZone('Genou','membre-inferieur')">
-
 <h3>Genou</h3>
-
 </button>
-
 
 <button class="card"
 onclick="openZone('Cheville','membre-inferieur')">
-
 <h3>Cheville</h3>
-
 </button>
-
 
 <button class="card"
 onclick="openZone('Pied','membre-inferieur')">
-
 <h3>Pied</h3>
-
 </button>
-
 
 </div>
 
 </section>
 
 
+<!-- ================================================= -->
+<!-- SOUS-MENU TECHNIQUES -->
+<!-- ================================================= -->
 
-<!-- ======================== -->
-<!-- SOUS-SOUS MENU -->
-<!-- TECHNIQUES -->
-<!-- ======================== -->
-
-<section id="zone"
-class="screen">
+<section id="zone" class="screen">
 
 <div class="topbar">
 
-<button class="back"
-onclick="go(parentWorld)">
+<button class="back" onclick="go(parentWorld)">
 ← Retour
 </button>
 
@@ -611,8 +525,7 @@ class="breadcrumb">
 
 </div>
 
-<h1 id="zoneTitle">
-</h1>
+<h1 id="zoneTitle"></h1>
 
 <p class="intro">
 Choisis une technique.
@@ -626,18 +539,15 @@ class="grid">
 </section>
 
 
-
-<!-- ======================== -->
+<!-- ================================================= -->
 <!-- RÉVISER -->
-<!-- ======================== -->
+<!-- ================================================= -->
 
-<section id="revision"
-class="screen">
+<section id="revision" class="screen">
 
 <div class="topbar">
 
-<button class="back"
-onclick="go('home')">
+<button class="back" onclick="go('home')">
 ← Accueil
 </button>
 
@@ -650,25 +560,21 @@ Accueil › Réviser
 <h1>Réviser</h1>
 
 <p class="intro">
-Un monde entièrement consacré
-à la révision.
+Un monde entièrement consacré à la révision.
 </p>
 
 </section>
 
 
-
-<!-- ======================== -->
+<!-- ================================================= -->
 <!-- TESTER -->
-<!-- ======================== -->
+<!-- ================================================= -->
 
-<section id="tester"
-class="screen">
+<section id="tester" class="screen">
 
 <div class="topbar">
 
-<button class="back"
-onclick="go('home')">
+<button class="back" onclick="go('home')">
 ← Accueil
 </button>
 
@@ -681,25 +587,21 @@ Accueil › Tester
 <h1>Tester</h1>
 
 <p class="intro">
-Quiz et entraînement
-sur les techniques.
+Quiz et entraînement sur les techniques.
 </p>
 
 </section>
 
 
-
-<!-- ======================== -->
+<!-- ================================================= -->
 <!-- PROGRESSION -->
-<!-- ======================== -->
+<!-- ================================================= -->
 
-<section id="progression"
-class="screen">
+<section id="progression" class="screen">
 
 <div class="topbar">
 
-<button class="back"
-onclick="go('home')">
+<button class="back" onclick="go('home')">
 ← Accueil
 </button>
 
@@ -712,8 +614,7 @@ Accueil › Progression
 <h1>Progression</h1>
 
 <p class="intro">
-Retrouve ici ton parcours
-et tes techniques maîtrisées.
+Retrouve ici ton parcours et tes techniques maîtrisées.
 </p>
 
 </section>
@@ -723,184 +624,219 @@ et tes techniques maîtrisées.
 
 <script>
 
-/* =========================
-   BASE DES TECHNIQUES
-========================= */
+/* =================================================
+   BASE DES TECHNIQUES + VIDÉOS
+================================================= */
 
 const techniques = {
 
-"Dorsales":[
+  "Dorsales":[
 
-{
-nom:
-"Dysfonction des 1re–2e côtes en abaissement — plan sagittal (EM)",
+    {
+      nom:
+      "Dysfonction des 1re–2e côtes en abaissement — plan sagittal (EM)",
 
-video:
-"https://vimeo.com/540084811"
-}
+      video:
+      "https://vimeo.com/540084811"
+    }
 
-],
-
-
-"Pied":[
-
-{
-nom:
-"Dysfonction calcanéo-cuboïdienne en rotation interne",
-
-video:
-"https://vimeo.com/540020382"
-},
-
-{
-nom:
-"Sous-talienne / sous-astragalienne — calcanéum en valgus — droite",
-
-video:
-"https://vimeo.com/1199647853"
-}
-
-],
+  ],
 
 
-"Cervicales":[],
-"Lombaires":[],
+  "Pied":[
 
-"Sacro-iliaque":[],
-"Sacrum":[],
-"Symphyse":[],
+    {
+      nom:
+      "Dysfonction calcanéo-cuboïdienne en rotation interne",
 
-"Épaule":[],
-"Coude":[],
-"Poignet":[],
-"Main":[],
+      video:
+      "https://vimeo.com/540020382"
+    },
 
-"Hanche":[],
-"Genou":[],
-"Cheville":[]
+    {
+      nom:
+      "Sous-talienne / sous-astragalienne — calcanéum en valgus — droite",
+
+      video:
+      "https://vimeo.com/1199647853"
+    }
+
+  ],
+
+
+  "Cervicales":[],
+
+  "Lombaires":[],
+
+  "Sacro-iliaque":[],
+
+  "Sacrum":[],
+
+  "Symphyse":[],
+
+  "Épaule":[],
+
+  "Coude":[],
+
+  "Poignet":[],
+
+  "Main":[],
+
+  "Hanche":[],
+
+  "Genou":[],
+
+  "Cheville":[]
 
 };
 
 
-/* =========================
-   NAVIGATION
-========================= */
+/* =================================================
+   NAVIGATION ENTRE LES MONDES
+================================================= */
 
-let parentWorld="videos";
+let parentWorld = "videos";
 
 
 function go(id){
 
-document
-.querySelectorAll(".screen")
-.forEach(function(screen){
+  document
+  .querySelectorAll(".screen")
+  .forEach(function(screen){
 
-screen.classList.remove("active");
+    screen.classList.remove("active");
 
-});
+  });
 
-document
-.getElementById(id)
-.classList.add("active");
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+  const destination =
+  document.getElementById(id);
+
+
+  if(destination){
+
+    destination.classList.add("active");
+
+  }
+
+
+  window.scrollTo({
+
+    top:0,
+
+    behavior:"smooth"
+
+  });
 
 }
 
 
-/* =========================
-   OUVERTURE SOUS-RÉGION
-========================= */
+/* =================================================
+   OUVERTURE D'UNE ZONE ANATOMIQUE
+================================================= */
 
 function openZone(zone,parent){
 
-parentWorld=parent;
-
-document
-.getElementById("zoneTitle")
-.textContent=zone;
+  parentWorld = parent;
 
 
-document
-.getElementById("zoneBreadcrumb")
-.textContent=
-"Vidéos › "+zone;
+  document
+  .getElementById("zoneTitle")
+  .textContent = zone;
 
 
-const container=
-document.getElementById("techniques");
+  document
+  .getElementById("zoneBreadcrumb")
+  .textContent =
+  "Vidéos › " + zone;
 
 
-container.innerHTML="";
+  const container =
+  document.getElementById("techniques");
 
 
-const liste=
-techniques[zone] || [];
+  container.innerHTML = "";
 
 
-/* AUCUNE TECHNIQUE */
-
-if(liste.length===0){
-
-container.innerHTML=
-
-'<div class="card technique">'+
-
-'<h3>Techniques à venir</h3>'+
-
-'<p>'+
-'Cette région est prête à recevoir les vidéos.'+
-'</p>'+
-
-'</div>';
-
-}
+  const liste =
+  techniques[zone] || [];
 
 
-/* TECHNIQUES DISPONIBLES */
+  /* ---------------------------------
+     AUCUNE TECHNIQUE ENCORE DISPONIBLE
+  --------------------------------- */
 
-liste.forEach(function(item){
+  if(liste.length === 0){
 
-const bouton=
-document.createElement("button");
+    container.innerHTML =
 
+    '<div class="card technique">' +
 
-bouton.className=
-"card technique";
+      '<h3>Techniques à venir</h3>' +
 
+      '<p>' +
 
-bouton.innerHTML=
+      'Cette région est prête à recevoir les vidéos.' +
 
-"<h3>"+
-item.nom+
-"</h3>"+
+      '</p>' +
 
-"<p>"+
-"<strong>Voir la vidéo →</strong>"+
-"</p>";
+    '</div>';
 
-
-bouton.onclick=function(){
-
-window.open(
-item.video,
-"_blank"
-);
-
-};
+  }
 
 
-container.appendChild(
-bouton
-);
+  /* ---------------------------------
+     TECHNIQUES AVEC VIDÉO
+  --------------------------------- */
 
-});
+  liste.forEach(function(item){
+
+    const bouton =
+    document.createElement("button");
 
 
-go("zone");
+    bouton.className =
+    "card technique";
+
+
+    bouton.innerHTML =
+
+    "<h3>" +
+
+    item.nom +
+
+    "</h3>" +
+
+    "<p>" +
+
+    "<strong>Voir la vidéo →</strong>" +
+
+    "</p>";
+
+
+    bouton.onclick = function(){
+
+      window.open(
+
+        item.video,
+
+        "_blank"
+
+      );
+
+    };
+
+
+    container.appendChild(
+
+      bouton
+
+    );
+
+  });
+
+
+  go("zone");
 
 }
 
